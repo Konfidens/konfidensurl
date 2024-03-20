@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
         {
           message: "Did not find a user with that username",
         },
-        { status: 404 },
+        { status: 404 }
       );
     }
 
@@ -47,12 +47,12 @@ export async function POST(request: NextRequest) {
       const token = jwt.sign(
         { userId: user.id, username: user.username },
         secret,
-        { expiresIn: "1h" },
+        { expiresIn: "1h" }
       );
 
       const response = NextResponse.json(
         { user: user, token: token },
-        { status: 200 },
+        { status: 200 }
       );
 
       response.cookies.set({
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
         {
           message: "Incorrect password",
         },
-        { status: 401 },
+        { status: 401 }
       );
     }
   } catch (error) {
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       {
         message: "Internal server error",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
