@@ -41,6 +41,15 @@ export async function POST(request: NextRequest) {
         },
       });
 
+      if (!user) {
+        return NextResponse.json(
+          {
+            message: "Did not find a user with that username",
+          },
+          { status: 404 }
+        );
+      }
+
       let secret = "";
       if (process.env.JWT_SECRET) secret = process.env.JWT_SECRET;
 

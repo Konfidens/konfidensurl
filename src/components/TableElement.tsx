@@ -7,7 +7,7 @@ import { updateLink, deleteLink } from "@/lib/links";
 type ElementProps = {
   id: number;
   path: string;
-  expires: Date | undefined;
+  expires: Date | undefined | null;
   clicks: number;
   url: string;
 };
