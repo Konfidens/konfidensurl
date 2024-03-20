@@ -1,5 +1,5 @@
-import Redirect from '@/components/Redirect';
-import { Link, getLink, incrementClicks } from '@/lib/links';
+import Redirect from "@/components/Redirect";
+import { Link, getLink, incrementClicks } from "@/lib/links";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const link: Link | undefined = await getLink(params.slug);

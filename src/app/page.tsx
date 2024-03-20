@@ -1,12 +1,12 @@
-import Redirect from '@/components/Redirect';
-import { Link, getLink, incrementClicks } from '@/lib/links';
+import Redirect from "@/components/Redirect";
+import { Link, getLink, incrementClicks } from "@/lib/links";
 
 export default async function Home() {
-  const link: Link | undefined = await getLink('');
+  const link: Link | undefined = await getLink("");
 
-  await incrementClicks('');
+  await incrementClicks("");
   return (
-    <main className='absolute inset-0 bg-white'>
+    <main className="absolute inset-0 bg-white">
       <Redirect url={link?.url} />
     </main>
   );

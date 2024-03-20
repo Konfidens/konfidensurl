@@ -1,7 +1,7 @@
-import prisma from '@/lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import prisma from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     if (!foundUser) {
       return NextResponse.json(
         {
-          message: 'Did not find a user with that username',
+          message: "Did not find a user with that username",
         },
         { status: 404 },
       );
@@ -41,13 +41,13 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      let secret = '';
+      let secret = "";
       if (process.env.JWT_SECRET) secret = process.env.JWT_SECRET;
 
       const token = jwt.sign(
         { userId: user.id, username: user.username },
         secret,
-        { expiresIn: '1h' },
+        { expiresIn: "1h" },
       );
 
       const response = NextResponse.json(
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       );
 
       response.cookies.set({
-        name: 'token',
+        name: "token",
         value: token,
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 7,
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     } else {
       return NextResponse.json(
         {
-          message: 'Incorrect password',
+          message: "Incorrect password",
         },
         { status: 401 },
       );
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       {
-        message: 'Internal server error',
+        message: "Internal server error",
       },
       { status: 500 },
     );
