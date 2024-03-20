@@ -3,20 +3,20 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model Links {
-  id Int @id @default(autoincrement())
-  path String @unique
-  url String
+  id      Int       @id @default(autoincrement())
+  path    String    @unique
+  url     String
   expires DateTime?
-  clicks Int @default(0)
+  clicks  Int       @default(0)
 }
 
 model Users {
-  id Int @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   username String @unique
   password String
 }

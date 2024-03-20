@@ -1,22 +1,22 @@
 ////////////////////////////// IMPORTS //////////////////////////////
-import prisma from './prisma';
+import prisma from "./prisma";
 
 ////////////////////////////// TYPES //////////////////////////////
 export interface Link {
   id: number;
   url: string;
   path: string;
-  expires: Date | undefined;
+  expires: Date | undefined | null;
   clicks?: number;
 }
 
 ////////////////////////////// FUNCTIONS //////////////////////////////
 // lager en ny link med url, path og expires som parametere
 export async function newLink({ url, path, expires }: Link) {
-  const res = await fetch('/api/links', {
-    method: 'POST',
+  const res = await fetch("/api/links", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       url: url,
@@ -31,10 +31,10 @@ export async function newLink({ url, path, expires }: Link) {
 // får url, path og expires som paramater og oppdaterer linken til path-en som er gitt.
 // alle parameterene må være med, ellers blir de satt til default valuene sine
 export async function updateLink({ id, url, path, expires }: Link) {
-  const res = await fetch('/api/links', {
-    method: 'PUT',
+  const res = await fetch("/api/links", {
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       id: id,
@@ -55,10 +55,10 @@ export async function deletion(id: number) {
 
 // sletter linken med path-en den får som param
 export async function deleteLink(id: number) {
-  const res = await fetch('/api/links', {
-    method: 'DELETE',
+  const res = await fetch("/api/links", {
+    method: "DELETE",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       id: id,
@@ -70,10 +70,10 @@ export async function deleteLink(id: number) {
 
 // henter alle linker som eksisterer
 export async function getAllLinks() {
-  const res = await fetch('/api/links', {
-    method: 'GET',
+  const res = await fetch("/api/links", {
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
   return await res.json();
@@ -82,14 +82,10 @@ export async function getAllLinks() {
 // henter en link basert på path som den får som parameter
 // sjekker også om linken har utløpt, og om den har det slette den linken
 export async function getLink(path: string) {
-  const parsedPath = path.replaceAll('%20', ' ');
-  const link: Link = await prisma.links.findUnique({
+  const parsedPath = path.replaceAll("%20", " ");
+  const link = await prisma.links.findUnique({
     where: {
       path: parsedPath,
-    },
-    select: {
-      id: true,
-      url: true,
     },
   });
 

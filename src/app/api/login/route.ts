@@ -1,7 +1,7 @@
-import prisma from '@/lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import prisma from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,9 +19,9 @@ export async function POST(request: NextRequest) {
     if (!foundUser) {
       return NextResponse.json(
         {
-          message: 'Did not find a user with that username',
+          message: "Did not find a user with that username",
         },
-        { status: 404 },
+        { status: 404 }
       );
     }
 
@@ -41,22 +41,31 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      let secret = '';
+      if (!user) {
+        return NextResponse.json(
+          {
+            message: "Did not find a user with that username",
+          },
+          { status: 404 }
+        );
+      }
+
+      let secret = "";
       if (process.env.JWT_SECRET) secret = process.env.JWT_SECRET;
 
       const token = jwt.sign(
         { userId: user.id, username: user.username },
         secret,
-        { expiresIn: '1h' },
+        { expiresIn: "1h" }
       );
 
       const response = NextResponse.json(
         { user: user, token: token },
-        { status: 200 },
+        { status: 200 }
       );
 
       response.cookies.set({
-        name: 'token',
+        name: "token",
         value: token,
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 7,
@@ -66,17 +75,17 @@ export async function POST(request: NextRequest) {
     } else {
       return NextResponse.json(
         {
-          message: 'Incorrect password',
+          message: "Incorrect password",
         },
-        { status: 401 },
+        { status: 401 }
       );
     }
   } catch (error) {
     return NextResponse.json(
       {
-        message: 'Internal server error',
+        message: "Internal server error",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
